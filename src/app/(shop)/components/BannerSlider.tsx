@@ -75,24 +75,24 @@ export default function BannerSlider() {
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 relative">
       
       {/* AREA SLIDER BANNER */}
-      {/* Catatan: Garis pembatas dashed & petunjuk ukuran dilepas agar tampilan clean di mata pembeli */}
       <div className="overflow-hidden rounded-2xl shadow-sm" ref={emblaRef}>
         <div className="flex">
           {banners.map((banner, index) => {
             // Logika pembungkus: Jika ada link_url pakai <Link>, jika kosong pakai <div> biasa
             const Wrapper = banner.link_url ? Link : "div";
-            const wrapperProps = banner.link_url ? { href: banner.link_url } : {};
+            // PERBAIKAN: Menambahkan 'as any' agar TypeScript tidak error pada komponen <div>
+            const wrapperProps = (banner.link_url ? { href: banner.link_url } : {}) as any;
 
             return (
               <div key={banner.id} className="flex-[0_0_100%] min-w-0 relative">
                 <Wrapper {...wrapperProps} className="block w-full cursor-pointer">
-                  {/* Batasan Tinggi Area Gambar (Mengikuti struktur aslimu) */}
+                  {/* Batasan Tinggi Area Gambar */}
                   <div className="w-full h-[180px] sm:h-[280px] md:h-[380px] relative rounded-2xl overflow-hidden">
                     <Image
-                      src={banner.image_url} // Mengambil langsung URL dari storage Supabase
+                      src={banner.image_url}
                       alt={banner.title}
                       fill
-                      priority={index === 0} // Hanya gambar pertama yang mendapat prioritas load cepat
+                      priority={index === 0}
                       sizes="(max-width: 768px) 100vw, (max-w: 1200px) 80vw, 1200px"
                       className="object-cover"
                     />
@@ -104,7 +104,7 @@ export default function BannerSlider() {
         </div>
       </div>
 
-      {/* INDIKATOR TITIK (DOTS) - Hanya muncul jika banner lebih dari 1 */}
+      {/* INDIKATOR TITIK (DOTS) */}
       {banners.length > 1 && (
         <div className="flex justify-center space-x-2 mt-3">
           {banners.map((_, index) => (

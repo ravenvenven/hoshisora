@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Tambahkan ini jika Anda juga ingin melewati error ESLint saat build
+  // Tambahkan ini agar ESLint tidak menghentikan build
   eslint: {
     ignoreDuringBuilds: true,
   },

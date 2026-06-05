@@ -8,14 +8,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@lib/supabase";
 
+// Interface diperbaiki: link_url dibuat opsional dengan '?'
 interface Banner {
   id: string;
   title: string;
   image_url: string;
-  link_url: string;
+  link_url?: string; 
 }
 
-// Komponen bantu untuk merender konten gambar
+// Komponen bantu untuk merender konten gambar agar struktur JSX bersih
 function BannerContent({ banner, index }: { banner: Banner; index: number }) {
   return (
     <div className="w-full h-[180px] sm:h-[280px] md:h-[380px] relative rounded-2xl overflow-hidden">
@@ -87,6 +88,7 @@ export default function BannerSlider() {
         <div className="flex">
           {banners.map((banner, index) => (
             <div key={banner.id} className="flex-[0_0_100%] min-w-0 relative">
+              {/* Logika kondisional: Gunakan Link hanya jika link_url ada */}
               {banner.link_url ? (
                 <Link href={banner.link_url} className="block w-full cursor-pointer">
                   <BannerContent banner={banner} index={index} />
